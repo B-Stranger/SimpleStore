@@ -1,16 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 
 namespace SimpleStore.Models
 {
     public class Order
     {
         public int Id { get; set; }
-        [Display(Name = "Client")]
+        [Required]
         public int ClientId { get; set; }
-        public virtual Client? Client { get; set; }
-        [Display(Name = "Product")]
+        public Client? Client { get; set; } 
+        [Required]
         public int ProductId { get; set; }
-        public virtual Product? Product { get; set; }
+        public Product? Product { get; set; }
         public int Quantity { get; set; }
         public Status Status { get; set; }
     }

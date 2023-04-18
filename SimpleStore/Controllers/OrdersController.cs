@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SimpleStore.Data;
@@ -37,28 +33,21 @@ namespace SimpleStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ClientId,ProductId,Quantity,Status")] Order order)
         {
-
+            order.Client = await _context.Clients.FirstOrDefaultAsync(c => c.Id == order.ClientId);
+            order.Product = await _context.Products.FirstOrDefaultAsync(p => p.Id == order.ProductId);
+            if (order.Client == null)
+            {
+                ModelState.AddModelError("Client.Name", "The specified client does not exist.");
+            }
+            if (order.Product == null)
+            {
+                ModelState.AddModelError("Product.Title", "The specified product does not exist.");
+            }
             if (ModelState.IsValid)
             {
-                var client = await _context.Clients.FirstOrDefaultAsync(c => c.Id == order.ClientId);
-                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == order.ProductId);
-
-                if (client == null)
-                {
-                    ModelState.AddModelError("Client.Name", "The specified client does not exist.");
-                }
-
-                if (product == null)
-                {
-                    ModelState.AddModelError("Product.Title", "The specified product does not exist.");
-                }
-
-                if (ModelState.IsValid)
-                {
-                    _context.Add(order);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
+                _context.Add(order);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
             return View(order);
         }

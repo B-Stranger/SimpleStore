@@ -6,13 +6,13 @@ namespace SimpleStore.Models
     {
         public int Id { get; set; }
         [DisplayName("Client")]
-        public string ClientName { get; set; }
+        public string ClientName { get; set; } = string.Empty;
         public int Quantity { get; set; }
         public Status Status { get; set; }
         [DisplayName("Order's Total Price")]
         public decimal TotalOrderValue { get; set; }
         [DisplayName("Product")]
-        public string ProductTitle { get; set; }
+        public string ProductTitle { get; set; } = string.Empty;
 
     }
 }
