@@ -12,7 +12,7 @@ namespace SimpleStore.Models
         [DataType(DataType.Date)]
         public DateTime Birthdate { get; set; }
         public Gender Gender { get; set; }
-        public List<Order> ?Orders { get; set; }
+        public List<Order> Orders { get; set; } = new List<Order>();
         [DisplayName("Number Of Orders")]
         public int OrdersQuantity { get; set; }
         [DisplayName("Average Order's Price")]

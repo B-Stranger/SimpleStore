@@ -17,7 +17,8 @@ namespace SimpleStore.Data
 
         public DbSet<Order> Orders { get; set; } = default!;
 
-        public IQueryable<OrderViewModel> OrderViewModels => Orders.Select(o => new OrderViewModel
+        public IQueryable<OrderViewModel> OrderViewModels => Orders
+            .Select(o => new OrderViewModel
         {
             Id = o.Id,
             ClientName = o.Client.Name,
@@ -28,6 +29,7 @@ namespace SimpleStore.Data
         });
 
         public IQueryable<ClientViewModel> ClientViewModels => Clients
+            .Include(c => c.Orders).ThenInclude(o => o.Product)
             .Select(cv => new ClientViewModel{
                 Id = cv.Id,
                 Name = cv.Name,

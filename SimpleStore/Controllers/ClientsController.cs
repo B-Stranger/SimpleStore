@@ -32,12 +32,11 @@ namespace SimpleStore.Controllers
                 return NotFound();
             }
 
-            var client = await _context.ClientViewModels.FirstOrDefaultAsync(m => m.Id == id);
+            var client = await _context.ClientViewModels.FirstOrDefaultAsync(m => m.Id == id);     
             if (client == null)
             {
                 return NotFound();
             }
-
             return View(client);
         }
 
